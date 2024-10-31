@@ -1,3 +1,4 @@
+import "server-only";
 import { cookies } from "next/headers";
 import { type ObjectId } from "mongoose";
 import { decrypt, encrypt } from "./session";
@@ -18,4 +19,12 @@ export async function createSession(userId: string | ObjectId, expiry?: Date) {
 export async function deleteSession() {
 	const cookiesStore = await cookies();
 	cookiesStore.delete("session");
+}
+
+export async function getSessionUserId() {
+	const cookiesStore = await cookies();
+	const sessionCookie = cookiesStore.get("session")?.value;
+	const session = await decrypt(sessionCookie);
+
+	return session?.userId;
 }
