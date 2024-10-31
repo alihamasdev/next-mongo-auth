@@ -1,5 +1,5 @@
 import { type Config } from "tailwindcss";
-import { black, white, zinc } from "tailwindcss/colors";
+import { black, red, white, zinc } from "tailwindcss/colors";
 
 const config: Config = {
 	content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
@@ -7,7 +7,8 @@ const config: Config = {
 		colors: {
 			black,
 			white,
-			zinc
+			zinc,
+			red
 		},
 		extend: {
 			spacing: {
