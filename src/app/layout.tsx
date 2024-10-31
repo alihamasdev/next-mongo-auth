@@ -17,7 +17,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang="en">
-			<body style={geistSans.style}>{children}</body>
+			<body className="min-h-dvh w-full bg-black text-white" style={geistSans.style}>
+				{children}
+			</body>
 		</html>
 	);
 }
