@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import { dbConnect } from "@/db/connect";
 import { redirect } from "next/navigation";
 import { loginSchema } from "@/lib/schema";
-import { createSession } from "@/lib/session";
+import { createSession } from "@/lib/auth";
 import User, { type UserSchema } from "@/db/models/user-model";
 
 dbConnect();
