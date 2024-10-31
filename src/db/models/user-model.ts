@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
-import type { Document, SchemaTimestampsConfig } from "mongoose";
+import type { ObjectId, SchemaTimestampsConfig } from "mongoose";
 
-export interface UserSchema extends Document, SchemaTimestampsConfig {
+export interface UserSchema extends SchemaTimestampsConfig {
+	_id: ObjectId;
 	name: string;
 	email: string;
 	password: string;
