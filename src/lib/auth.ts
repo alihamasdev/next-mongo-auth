@@ -14,3 +14,8 @@ export async function createSession(userId: string | ObjectId, expiry?: Date) {
 	});
 	return session;
 }
+
+export async function deleteSession() {
+	const cookiesStore = await cookies();
+	cookiesStore.delete("session");
+}
