@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+	.error {
+		@apply text-red-500 absolute -bottom-[21px] left-2 text-xs;
+	}
+}
