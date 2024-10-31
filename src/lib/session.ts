@@ -1,12 +1,13 @@
 import { cookies } from "next/headers";
-import { SignJWT, jwtVerify, type JWTPayload } from "jose";
+import { type ObjectId } from "mongoose";
+import { SignJWT, jwtVerify } from "jose";
 
 const secretKey = process.env.SESSION_SECRET;
 const encodedKey = new TextEncoder().encode(secretKey);
 
-export async function createSession(payload: JWTPayload, expiry?: Date) {
+export async function createSession(userId: string | ObjectId, expiry?: Date) {
 	const expiresAt = expiry || new Date(Date.now() + 120 * 24 * 60 * 60 * 1000);
-	const session = await encrypt({ payload }, expiresAt);
+	const session = await encrypt({ userId }, expiresAt);
 	const cookiesStore = await cookies();
 	cookiesStore.set("session", session, {
 		secure: true,
@@ -17,7 +18,11 @@ export async function createSession(payload: JWTPayload, expiry?: Date) {
 	return session;
 }
 
-export async function encrypt(payload: JWTPayload, expiresAt: number | string | Date) {
+type SessionPayload = {
+	userId: string | ObjectId;
+};
+
+export async function encrypt(payload: SessionPayload, expiresAt: number | string | Date) {
 	return new SignJWT(payload)
 		.setProtectedHeader({ alg: "HS256" })
 		.setIssuedAt(Date.now())
@@ -27,8 +32,8 @@ export async function encrypt(payload: JWTPayload, expiresAt: number | string | 
 
 export async function decrypt(token: string | undefined = "") {
 	try {
-		const { payload } = await jwtVerify(token, encodedKey, { algorithms: ["HS256"] });
-		return payload;
+		const verify = await jwtVerify(token, encodedKey, { algorithms: ["HS256"] });
+		return verify.payload;
 	} catch (error) {
 		console.error("Failed to verify session");
 	}

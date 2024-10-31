@@ -20,6 +20,6 @@ export default async function action(prevState: any, formData: FormData) {
 	const validPassword = await bcrypt.compare(password, user.password);
 	if (!validPassword) return { errors: { password: ["Please enter valid password"] } };
 
-	const session = await createSession({ userId: user._id });
+	await createSession(user._id);
 	redirect("/profile");
 }
